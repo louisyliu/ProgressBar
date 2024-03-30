@@ -1,4 +1,6 @@
 # ProgressBar
+Effortless progress tracking and sleek title formatting for MATLAB.
+
 ProgressBar is a small collection of MATLAB utility functions designed to enhance the user experience by providing visually appealing and informative progress tracking for loops and displaying formatted titles. 
 
 The project includes two main functions:
