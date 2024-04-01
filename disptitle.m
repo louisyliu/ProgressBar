@@ -9,9 +9,11 @@ function disptitle(str)
 %   Output:
 %       ---------------------- This is a sample title ----------------------
 
-totLength = 80;
+% adaptive length based on the command window width
+commandWinSize = get(0, 'CommandWindowSize');
+totLength = commandWinSize(1)-2;
 strLength = length(str);
-if strLength < 80
+if strLength < totLength
     prebarLength = floor((totLength - strLength)/2);
     postbarLength = totLength - strLength - prebarLength;
     prebar = sprintf(repmat('-', 1, prebarLength));
