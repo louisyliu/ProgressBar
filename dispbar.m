@@ -1,4 +1,4 @@
-function test2(iLoop, nLoops)
+function dispbar(iLoop, nLoops)
 % TEST Displays a progress bar in a for loop.
 %   test(iLoop, nLoops) displays a progress bar indicating the current
 %   progress of a for loop. The function takes two input arguments:
@@ -30,19 +30,12 @@ barLength = commandWinSize(1) - length(formattedTime) - length(preText) - 7 - 21
 if iLoop ~= nLoops % Not finished
     if iLoop == 1 % Start
         tic;
-        remainingTimeText = ' Estimating remaining time...';
-        nDelete = 0;
+        remainingTimeText = ' | Estimating time...';
     else
         runTime = toc;
         remainingTime = runTime/(iLoop-1)*(nLoops-1) - runTime;
         remainingTimeText = formattime(remainingTime);
         remainingTimeText = [' |' remainingTimeText 'remaining'];
-
-        if iLoop == 2
-            nDelete = 85;
-        else
-            nDelete = commandWinSize(1) - nAlign;
-        end
     end
     nFinishLabel = floor(iLoop/nLoops*barLength);
     percentageText = sprintf('] %4.1f%%', iLoop/nLoops*100);
@@ -52,12 +45,19 @@ if iLoop ~= nLoops % Not finished
 
 else % Finished
     showText = sprintf([formattedTime 'Finish! 100%%         Time used:' formattime(toc/(nLoops-1)*nLoops) '\n']);
-    nDelete = commandWinSize(1) - nAlign;
 end
 
 % Escape % and \ characters
 showText = strrep(showText,'%','%%');
 showText = strrep(showText,'\\','\\\\');
+
+if iLoop == 1
+    nDelete = 0;
+% elseif iLoop == 2
+%     nDelete = 74;
+else
+    nDelete = commandWinSize(1) - nAlign;
+end
 
 % Print progress bar
 fprintf([repmat('\b', 1, nDelete) showText]);

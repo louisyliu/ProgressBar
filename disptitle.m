@@ -11,7 +11,7 @@ function disptitle(str)
 
 % adaptive length based on the command window width
 commandWinSize = get(0, 'CommandWindowSize');
-totLength = commandWinSize(1)-2;
+totLength = commandWinSize(1);
 strLength = length(str);
 if strLength < totLength
     prebarLength = floor((totLength - strLength)/2);
