@@ -1,6 +1,6 @@
-function dispbar(iLoop, nLoops)
-% dispbar Displays a progress bar with time stamp in a for loop.
-%   dispbar(iLoop, nLoops) displays a progress bar indicating the current
+function dispbarwtime(iLoop, nLoops)
+% Dispbarwtime Displays a progress bar with time stamp in a for loop.
+%   dispbarwtime(iLoop, nLoops) displays a progress bar indicating the current
 %   progress of a for loop. The function takes two input arguments:
 %   iLoop, which represents the current iteration of the loop, and nLoops,
 %   which represents the total number of iterations in the loop.
@@ -8,7 +8,7 @@ function dispbar(iLoop, nLoops)
 % Usage:
 %   for i = 1:nLoops
 %       % Add your code here
-%       dispbar(i, nLoops);
+%       dispbarwtime(i, nLoops);
 %   end
 
 % Constants
@@ -17,13 +17,15 @@ unfinishLabel = '-'; % '-' by default
 nAlign = 4; % Number of alignment characters
 
 % Get command windows size
-commandWinSize = 80;
+commandWinSize = get(0, 'CommandWindowSize');
 
 preText = '[';
 
 % Get current time
+c = datevec(datetime); % [year month day hour minute seconds]
+formattedTime = sprintf('%02d:%02d:%02d ',c(4),c(5),round(c(6))); % Format current time
 
-barLength = commandWinSize(1) - length(preText) - 8 - 7 - 22  - nAlign;
+barLength = commandWinSize(1) - length(formattedTime) - length(preText) - 7 - 22  - nAlign;
 
 if iLoop ~= nLoops % Not finished
     if iLoop == 1 % Start
@@ -39,10 +41,10 @@ if iLoop ~= nLoops % Not finished
     percentageText = sprintf('] %5.1f%%', iLoop/nLoops*100);
     barLabel = sprintf([repmat(finishLabel, 1, nFinishLabel)...
         repmat(unfinishLabel, 1, barLength-nFinishLabel)]);
-    showText = ['Running ' preText barLabel percentageText remainingTimeText];
+    showText = [formattedTime preText barLabel percentageText remainingTimeText];
 
 else % Finished
-    showText = sprintf(['         Finish! 100%%         Time used:' formattime(toc/(nLoops-1)*nLoops) '\n']);
+    showText = sprintf([formattedTime 'Finish! 100%%         Time used:' formattime(toc/(nLoops-1)*nLoops) '\n']);
 end
 
 % Escape % and \ characters
